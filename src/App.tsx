@@ -8,8 +8,10 @@ function App() {
   };
 
   return (
-<h2>Title</h2>
-    <OrderForm onSubmit={handleOrder} />
+    <>
+      <h1>"Title"</h1>
+      <OrderForm onSubmit={handleOrder} />
+    </>
   );
 }
 
