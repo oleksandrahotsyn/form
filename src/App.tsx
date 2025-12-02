@@ -1,17 +1,15 @@
 // import { useState } from "react";
 import "./App.css";
+import OrderForm from "./components/OrderForm";
 
 function App() {
-  const handleSubmit = (formData: FormData) => {
-    const username = formData.get("username") as string;
-    console.log("Name:", username);
+  const handleOrder = (data: string) => {
+    console.log("Order received from:", data);
   };
 
   return (
-    <form action={handleSubmit}>
-      <input type="text" name="username" />
-      <button type="submit">Submit</button>
-    </form>
+<h2>Title</h2>
+    <OrderForm onSubmit={handleOrder} />
   );
 }
 
