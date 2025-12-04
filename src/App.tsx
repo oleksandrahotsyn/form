@@ -17,23 +17,32 @@ interface ArticlesHttpResponse {
 function App() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
   const handleOrder = (data: string) => {
     console.log("Order received from:", data);
   };
   const handleSearch = async (topic: string) => {
-    setIsLoading(true);
-    const response = await axios.get<ArticlesHttpResponse>(
-      `https://hn.algolia.com/api/v1/search?query=${topic}`
-    );
-    setIsLoading(false);
-    setArticles(response.data.hits);
-    console.log(response.data);
+    try {
+      setIsLoading(true);
+      const response = await axios.get<ArticlesHttpResponse>(
+        `https://hn.algolia.com/api/v1/search?query=${topic}`
+      );
+
+      setArticles(response.data.hits);
+      console.log(response.data);
+    } catch {
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <>
       <h1>"Title"</h1>
       <SearchForm onSubmit={handleSearch} />
       {isLoading && <p>Loading data, please wait...</p>}
+      {isError && <p>Whoops, something went wrong! Please try again!</p>}
       {articles.length > 0 && (
         <ul>
           {articles.map(({ objectID, url, title }) => (
